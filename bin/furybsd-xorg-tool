@@ -77,9 +77,8 @@ EOF
 fi
 
 if [ "$ask" == "VirtualBox" ]; then
-  xterm -e pkg install -fy virtualbox-ose-additions
   rm /etc/X11/xorg.conf
-  pkg install virtualbox-ose-additions
+  xterm -e pkg install -fy virtualbox-ose-additions
   sysrc vboxguest_enable="YES"
   sysrc vboxservice_enable="YES"
   service vboxguest start
