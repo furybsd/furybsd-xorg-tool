@@ -23,7 +23,7 @@ if [ "$ask" == "Intel" ]; then
   if [ "$ask" == "drm-fbsd12.0-kmod" ]; then
     rm /etc/X11/xorg.conf
     xterm -e pkg install -fy drm-fbsd12.0-kmod
-    sysrc kld_list+="/boot/modules/i915kms.ko"
+    sysrc -f /etc/rc.conf kld_list+="/boot/modules/i915kms.ko"
     service kld restart
     zenity --info --title="FuryBSD Xorg Tool" --text="Xorg will now be restarted" --width=300 --height=100
     killall Xorg
@@ -35,7 +35,7 @@ if [ "$ask" == "nVidia" ]; then
   if [ "$ask" == "nVidia Driver 390" ]; then
     rm /etc/X11/xorg.conf
     xterm -e pkg install -fy nvidia-driver
-    sysrc kld_list+="nvidia-modeset"
+    sysrc -f /etc/rc.conf kld_list+="nvidia-modeset"
     service kld restart
 cat <<EOF | tee /etc/X11/xorg.conf
 Section "Device"
@@ -49,7 +49,7 @@ EOF
   if [ "$ask" == "nVidia Driver 340" ]; then
     rm /etc/X11/xorg.conf
     xterm -e pkg install-fy nvidia-driver-340
-    sysrc kld_list+="nvidia"
+    sysrc -f /etc/rc.conf kld_list+="nvidia"
     service kld restart
 cat <<EOF | tee /etc/X11/xorg.conf
 Section "Device"
@@ -63,7 +63,7 @@ EOF
   if [ "$ask" == "nVidia Driver 304" ]; then
     rm /etc/X11/xorg.conf
     xterm -e pkg install -fy nvidia-driver-304
-    sysrc kld_list+="nvidia"
+    sysrc -f /etc/rc.conf kld_list+="nvidia"
     service kld restart
 cat <<EOF | tee /etc/X11/xorg.conf
 Section "Device"
@@ -79,8 +79,8 @@ fi
 if [ "$ask" == "VirtualBox" ]; then
   rm /etc/X11/xorg.conf
   xterm -e pkg install -fy virtualbox-ose-additions
-  sysrc vboxguest_enable="YES"
-  sysrc vboxservice_enable="YES"
+  sysrc -f /etc/rc.conf vboxguest_enable="YES"
+  sysrc -f /etc/rc.conf vboxservice_enable="YES"
   service vboxguest start
   service vboxservice start
   zenity --info --title="FuryBSD Xorg Tool" --text="Xorg will now be restarted" --width=300 --height=100
