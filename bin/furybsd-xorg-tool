@@ -1,5 +1,11 @@
 #!/usr/local/bin/bash
 
+# Only run as superuser
+if [ "$(id -u)" != "0" ]; then
+  echo "This script must be run as root" 1>&2
+  exit 1
+fi
+
 # Ensure pkg.freebsd.org is reachable first
 
 if ping -c 1 pkg.freebsd.org &> /dev/null
