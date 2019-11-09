@@ -1,0 +1,85 @@
+#!/usr/local/bin/bash
+
+# Ensure pkg.freebsd.org is reachable first
+
+if ping -c 1 pkg.freebsd.org &> /dev/null
+then
+  echo "pkg.freebsd.org found"
+else
+  zenity --info --title="FuryBSD Xorg Tool" --text="A working internet connection is required first" --width=300 --height=100
+  exit 1
+fi
+
+ask=`zenity --list --title="FuryBSD Xorg Tool" --column="0" "Intel" "nVidia" "VirtualBox" --width=300 --height=200 --hide-header`
+
+if [ "$ask" == "Intel" ]; then
+  ask=`zenity --list --title="FuryBSD Xorg Tool" --column="0" "drm-kmod" "drm-legacy-kmod" --width=300 --height=200 --hide-header`
+  if [ "$ask" == "drm-fbsd12.0-kmod" ]; then
+    rm /etc/X11/xorg.conf
+    xterm -e pkg install -fy drm-fbsd12.0-kmod
+    sysrc kld_list+="/boot/modules/i915kms.ko"
+    service kld restart
+    zenity --info --title="FuryBSD Xorg Tool" --text="Xorg will now be restarted" --width=300 --height=100
+    killall Xorg
+  fi
+fi
+
+if [ "$ask" == "nVidia" ]; then
+  ask=`zenity --list --title="FuryBSD Xorg Tool" --column="0" "nVidia Driver 390" "nVidia Driver 340" "nVidia Driver 304" --width=300 --height=200 --hide-header`
+  if [ "$ask" == "nVidia Driver 390" ]; then
+    rm /etc/X11/xorg.conf
+    xterm -e pkg install -fy nvidia-driver
+    sysrc kld_list+="nvidia-modeset"
+    service kld restart
+cat <<EOF | tee /etc/X11/xorg.conf
+Section "Device"
+	Identifier "Card0"
+	Driver     "nvidia"
+EndSection
+EOF
+    zenity --info --title="FuryBSD Xorg Tool" --text="Xorg will now be restarted" --width=300 --height=100
+    killall Xorg
+  fi
+  if [ "$ask" == "nVidia Driver 340" ]; then
+    rm /etc/X11/xorg.conf
+    xterm -e pkg install-fy nvidia-driver-340
+    sysrc kld_list+="nvidia"
+    service kld restart
+cat <<EOF | tee /etc/X11/xorg.conf
+Section "Device"
+        Identifier "Card0"
+        Driver     "nvidia"
+EndSection
+EOF
+    zenity --info --title="FuryBSD Xorg Tool" --text="Xorg will now be restarted" --width=300 --height=100
+    killall Xorg
+  fi
+  if [ "$ask" == "nVidia Driver 304" ]; then
+    rm /etc/X11/xorg.conf
+    xterm -e pkg install -fy nvidia-driver-304
+    sysrc kld_list+="nvidia"
+    service kld restart
+cat <<EOF | tee /etc/X11/xorg.conf
+Section "Device"
+        Identifier "Card0"
+        Driver     "nvidia"
+EndSection
+EOF
+    zenity --info --title="FuryBSD Xorg Tool" --text="Xorg will now be restarted" --width=300 --height=100
+    killall Xorg
+  fi
+fi
+
+if [ "$ask" == "VirtualBox" ]; then
+  xterm -e pkg install -fy virtualbox-ose-additions
+  rm /etc/X11/xorg.conf
+  pkg install virtualbox-ose-additions
+  sysrc vboxguest_enable="YES"
+  sysrc vboxservice_enable="YES"
+  service vboxguest start
+  service vboxservice start
+  zenity --info --title="FuryBSD Xorg Tool" --text="Xorg will now be restarted" --width=300 --height=100
+  killall Xorg
+fi
+
+exit 0
