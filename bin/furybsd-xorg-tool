@@ -8,7 +8,7 @@ fi
 
 # Ensure pkg.freebsd.org is reachable first
 
-if ping -c 1 pkg.freebsd.org &> /dev/null
+if netstat -rn | grep default &> /dev/null
 then
   echo "pkg.freebsd.org found"
 else
