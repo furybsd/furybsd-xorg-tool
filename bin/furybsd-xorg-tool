@@ -19,10 +19,18 @@ fi
 ask=`zenity --list --title="FuryBSD Xorg Tool" --column="0" "Intel" "nVidia" "VirtualBox" --width=300 --height=200 --hide-header`
 
 if [ "$ask" == "Intel" ]; then
-  ask=`zenity --list --title="FuryBSD Xorg Tool" --column="0" "drm-kmod" --width=300 --height=200 --hide-header`
+  ask=`zenity --list --title="FuryBSD Xorg Tool" --column="0" "drm-kmod" "drm-legacy" --width=300 --height=200 --hide-header`
   if [ "$ask" == "drm-kmod" ]; then
     rm /etc/X11/xorg.conf
     xterm -e pkg install -fy drm-kmod
+    sysrc -f /etc/rc.conf kld_list+="/boot/modules/i915kms.ko"
+    service kld restart
+    zenity --info --title="FuryBSD Xorg Tool" --text="Xorg will now be restarted" --width=300 --height=100
+    killall Xorg
+  fi
+  if [ "$ask" == "drm-legacy" ]; then
+    rm /etc/X11/xorg.conf
+    xterm -e pkg install -fy drm-legacy
     sysrc -f /etc/rc.conf kld_list+="/boot/modules/i915kms.ko"
     service kld restart
     zenity --info --title="FuryBSD Xorg Tool" --text="Xorg will now be restarted" --width=300 --height=100
