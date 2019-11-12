@@ -19,8 +19,8 @@ fi
 ask=`zenity --list --title="FuryBSD Xorg Tool" --column="0" "Intel" "nVidia" "VirtualBox" --width=300 --height=200 --hide-header`
 
 if [ "$ask" == "Intel" ]; then
-  ask=`zenity --list --title="FuryBSD Xorg Tool" --column="0" "drm-fbsd12.0-kmod" --width=300 --height=200 --hide-header`
-  if [ "$ask" == "drm-fbsd12.0-kmod" ]; then
+  ask=`zenity --list --title="FuryBSD Xorg Tool" --column="0" "drm-kmod" --width=300 --height=200 --hide-header`
+  if [ "$ask" == "drm-kmod" ]; then
     rm /etc/X11/xorg.conf
     xterm -e pkg install -fy drm-fbsd12.0-kmod
     sysrc -f /etc/rc.conf kld_list+="/boot/modules/i915kms.ko"
