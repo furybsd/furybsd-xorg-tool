@@ -48,7 +48,7 @@ if [ "$ask" == "nVidia" ]; then
   ask=`zenity --list --title="FuryBSD Xorg Tool" --column="0" "nVidia Driver 390" "nVidia Driver 340" "nVidia Driver 304" --width=300 --height=200 --hide-header`
   if [ "$ask" == "nVidia Driver 390" ]; then
     rm /etc/X11/xorg.conf
-    xterm -e pkg install -fy nvidia-driver && pkg clean -a -y
+    xterm -e pkg install -fy nvidia-driver-390 && pkg clean -a -y
     sysrc -f /etc/rc.conf kld_list+="nvidia-modeset"
     service kld restart
 cat <<EOF | tee /etc/X11/xorg.conf
