@@ -16,7 +16,7 @@ else
   exit 1
 fi
 
-ask=`zenity --list --title="FuryBSD Xorg Tool" --column="0" "Intel" "nVidia" "VirtualBox" --width=300 --height=200 --hide-header`
+ask=`zenity --list --title="FuryBSD Xorg Tool" --column="0" "Intel" "nVidia" --width=300 --height=200 --hide-header`
 
 if [ "$ask" == "Intel" ]; then
   ask=`zenity --list --title="FuryBSD Xorg Tool" --column="0" "drm-kmod" "drm-legacy-kmod" "xf86-video-intel" --width=300 --height=200 --hide-header`
@@ -102,17 +102,6 @@ EOF
     zenity --info --title="FuryBSD Xorg Tool" --text="Xorg will now be restarted" --width=300 --height=100
     killall Xorg
   fi
-fi
-
-if [ "$ask" == "VirtualBox" ]; then
-  rm /etc/X11/xorg.conf
-  xterm -e pkg install -fy virtualbox-ose-additions && pkg clean -a -y
-  sysrc -f /etc/rc.conf vboxguest_enable="YES"
-  sysrc -f /etc/rc.conf vboxservice_enable="YES"
-  service vboxguest start
-  service vboxservice start
-  zenity --info --title="FuryBSD Xorg Tool" --text="Xorg will now be restarted" --width=300 --height=100
-  killall Xorg
 fi
 
 exit 0
