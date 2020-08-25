@@ -25,22 +25,19 @@ if [ "$ask" == "Intel" ]; then
     xterm -e pkg install -fy drm-kmod && pkg clean -a -y
     sysrc -f /etc/rc.conf kld_list+="/boot/modules/i915kms.ko"
     service kld restart
-    zenity --info --title="FuryBSD Xorg Tool" --text="Xorg will now be restarted" --width=300 --height=100
-    killall Xorg
+    zenity --info --title="FuryBSD Xorg Tool" --text="Please logout to apply changes!" --width=300 --height=100
   fi
   if [ "$ask" == "drm-legacy-kmod" ]; then
     rm /etc/X11/xorg.conf
     xterm -e pkg install -fy drm-legacy-kmod && pkg clean -a -y
     sysrc -f /etc/rc.conf kld_list+="/boot/modules/i915kms.ko"
     service kld restart
-    zenity --info --title="FuryBSD Xorg Tool" --text="Xorg will now be restarted" --width=300 --height=100
-    killall Xorg
+    zenity --info --title="FuryBSD Xorg Tool" --text="Please logout to apply changes!" --width=300 --height=100
   fi
   if [ "$ask" == "xf86-video-intel" ]; then
     rm /etc/X11/xorg.conf
     xterm -e pkg install -fy xf86-video-intel && pkg clean -a -y
-    zenity --info --title="FuryBSD Xorg Tool" --text="Xorg will now be restarted" --width=300 --height=100
-    killall Xorg
+    zenity --info --title="FuryBSD Xorg Tool" --text="Please logout to apply changes!" --width=300 --height=100
   fi
 fi
 
@@ -57,8 +54,7 @@ Section "Device"
         Driver     "nvidia"
 EndSection
 EOF
-    zenity --info --title="FuryBSD Xorg Tool" --text="Xorg will now be restarted" --width=300 --height=100
-    killall Xorg
+    zenity --info --title="FuryBSD Xorg Tool" --text="Please logout to apply changes!" --width=300 --height=100
   fi
   if [ "$ask" == "nVidia Driver 390" ]; then
     rm /etc/X11/xorg.conf
@@ -71,8 +67,7 @@ Section "Device"
 	Driver     "nvidia"
 EndSection
 EOF
-    zenity --info --title="FuryBSD Xorg Tool" --text="Xorg will now be restarted" --width=300 --height=100
-    killall Xorg
+    zenity --info --title="FuryBSD Xorg Tool" --text="Please logout to apply changes!" --width=300 --height=100
   fi
   if [ "$ask" == "nVidia Driver 340" ]; then
     rm /etc/X11/xorg.conf
@@ -85,8 +80,7 @@ Section "Device"
         Driver     "nvidia"
 EndSection
 EOF
-    zenity --info --title="FuryBSD Xorg Tool" --text="Xorg will now be restarted" --width=300 --height=100
-    killall Xorg
+    zenity --info --title="FuryBSD Xorg Tool" --text="Please logout to apply changes!" --width=300 --height=100
   fi
 fi
 
